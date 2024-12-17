@@ -5,6 +5,8 @@ ruby '2.5.1'
 gem 'devise'
 gem 'aws-sdk-s3', require: false
 gem 'mini_magick'
+gem 'dotenv-rails', groups: [:development, :test]
+gem 'active_storage_validations'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.8', '>= 5.2.8.1'

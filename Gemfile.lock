@@ -24,6 +24,11 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_storage_validations (1.2.0)
+      activejob (>= 5.2.0)
+      activemodel (>= 5.2.0)
+      activestorage (>= 5.2.0)
+      activesupport (>= 5.2.0)
     activejob (5.2.8.1)
       activesupport (= 5.2.8.1)
       globalid (>= 0.3.6)
@@ -98,6 +103,10 @@ GEM
       responders
       warden (~> 1.2.3)
     digest (3.1.1)
+    dotenv (2.8.1)
+    dotenv-rails (2.8.1)
+      dotenv (= 2.8.1)
+      railties (>= 3.2)
     erubi (1.13.0)
     execjs (2.10.0)
     ffi (1.17.0)
@@ -245,6 +254,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_storage_validations
   aws-sdk-s3
   bootsnap (>= 1.1.0)
   byebug
@@ -252,6 +262,7 @@ DEPENDENCIES
   chromedriver-helper
   coffee-rails (~> 4.2)
   devise
+  dotenv-rails
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
   mini_magick
