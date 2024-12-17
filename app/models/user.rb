@@ -5,6 +5,8 @@ class User < ApplicationRecord
 
   after_initialize :set_default_role, if: :new_record?
 
+  has_many :file_uploads, dependent: :destroy
+  
   private
 
   def set_default_role
