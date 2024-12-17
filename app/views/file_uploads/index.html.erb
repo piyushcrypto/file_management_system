@@ -1,0 +1,14 @@
+<h1>Your Uploaded Files</h1>
+
+<ul>
+  <% @file_uploads.each do |file_upload| %>
+    <li>
+      <strong><%= file_upload.title %></strong>
+      <p><%= file_upload.description %></p>
+      <%= link_to 'Delete', file_upload_path(file_upload), method: :delete, data: { confirm: 'Are you sure?' } %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to 'Upload New File', new_file_upload_path %>
+
