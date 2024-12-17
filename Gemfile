@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.1'
+ruby '3.1.0' # or any version >= 3.1.0
 gem 'devise'
 gem 'aws-sdk-s3', require: false
 gem 'mini_magick'
