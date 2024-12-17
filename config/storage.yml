@@ -8,25 +8,14 @@ local:
 
 amazon:
   service: S3
-  access_key_id: 'your_aws_access_key_id'  # Replace with your AWS access key
-  secret_access_key: 'your_aws_secret_access_key'  # Replace with your AWS secret key
-  region: 'your-region'  # Replace with your AWS region, e.g., 'us-east-1'
-  bucket: 'your-bucket-name'  # Replace with your S3 bucket name
+  access_key_id: '<%= ENV["AWS_ACCESS_KEY_ID"] %>'  # Use environment variables for credentials
+  secret_access_key: '<%= ENV["AWS_SECRET_ACCESS_KEY"] %>'  # Use environment variables for credentials
+  region: 'ap-southeast-1'  # Replace with your AWS region
+  bucket: 'file-management-bucket-ftr'  # Same bucket for both dev and prod
 
-# Uncomment and configure these if you plan to use Google Cloud Storage or Azure Storage
-# google:
-#   service: GCS
-#   project: 'your-project-id'  # Replace with your Google Cloud project ID
-#   credentials: <%= Rails.root.join("path/to/gcs.keyfile") %>  # Path to your GCS credentials JSON file
-#   bucket: 'your-bucket-name'  # Replace with your Google Cloud Storage bucket name
-
-# microsoft:
-#   service: AzureStorage
-#   storage_account_name: 'your_account_name'  # Replace with your Azure Storage account name
-#   storage_access_key: 'your_storage_access_key'  # Replace with your Azure Storage access key
-#   container: 'your-container-name'  # Replace with your Azure Storage container name
-
-# mirror:
-#   service: Mirror
-#   primary: local
-#   mirrors: [amazon, google, microsoft]
+production:
+  service: S3
+  access_key_id: '<%= ENV["AWS_ACCESS_KEY_ID"] %>'  # Use environment variables for credentials
+  secret_access_key: '<%= ENV["AWS_SECRET_ACCESS_KEY"] %>'  # Use environment variables for credentials
+  region: 'ap-southeast-1'  # Same region as in amazon config
+  bucket: 'file-management-bucket-ftr'  # Same bucket for both dev and prod
