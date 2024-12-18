@@ -33,13 +33,13 @@ class FileUploadJob < ApplicationJob
 
       file_upload.update(file_url: s3_object.public_url)
 
+    rescue Aws::S3::Errors::ServiceError => e
+      Rails.logger.error "S3 Upload Error: #{e.message}"
+    rescue StandardError => e
+      Rails.logger.error "File Processing Error: #{e.message}"
     ensure
       temp_file.close
-      temp_file.unlink 
-
-  rescue Aws::S3::Errors::ServiceError => e
-    Rails.logger.error "S3 Upload Error: #{e.message}"
-  rescue StandardError => e
-    Rails.logger.error "File Processing Error: #{e.message}"
+      temp_file.unlink if temp_file
+    end
   end
 end
