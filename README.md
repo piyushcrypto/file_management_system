@@ -1,24 +1,19 @@
-# README
+This project is hosted on render
+https://file-management-system-lbw8.onrender.com/file_uploads
+you can directly checkout the application
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+Steps to Run the project:
 
-* Ruby version
+1: Clone the project repo using
+    git clone https://github.com/piyushcrypto/file_management_system.git
 
-* System dependencies
+2: Run bundle install to build and install the gems.
 
-* Configuration
+3: Run rails db:create and rails db:migrate to run the migrations and create the databases.
 
-* Database creation
+4: Setup the Postgres DB as per the project requirement. 
 
-* Database initialization
+5: Run rails s to run the project.
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+6: Go to 

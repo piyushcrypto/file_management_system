@@ -3,17 +3,36 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10 col-sm-12">
-      <% @file_uploads.each do |file_upload| %>
-        <div class="card mb-4 shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title text-center"><%= file_upload.title %></h5>
-            <p class="card-text"><%= file_upload.description %></p>
-            <a class="card-text" href="<%=file_upload.file_url || " NA "%>">VIEW</p>
-            <div class="text-center">
-              <%= link_to 'Delete', file_upload_path(file_upload), method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' } %>
+      <% if @file_uploads.empty? %>
+        <div class="alert alert-info text-center">
+          You do not have any uploaded files. Upload a file to see them here.
+        </div>
+      <% else %>
+        <% @file_uploads.each do |file_upload| %>
+          <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-center"><%= file_upload.title %></h5>
+              
+              <div class="text-center">
+                <p class="card-text"><strong>Description:</strong> <%= file_upload.description %></p>
+              </div>
+
+              <div class="text-center">
+                <% if file_upload.file.attached? %>
+                  <%= link_to 'VIEW', file_upload.file_url, class: 'btn btn-info' %>
+                <% else %>
+                  <span class="text-muted">No file available</span>
+                <% end %>
+              </div>
+              
+              <div class="text-center">
+                <%= form_with url: file_upload_path(file_upload), method: :delete, data: { confirm: 'Are you sure?' }, class: 'd-inline' do %>
+                  <%= submit_tag 'Delete', class: 'btn btn-danger' %>
+                <% end %>
+              </div>
             </div>
           </div>
-        </div>
+        <% end %>
       <% end %>
 
       <div class="text-center mt-4">

@@ -64,11 +64,17 @@ class FileUploadsController < ApplicationController
 
   def delete_from_s3(file_upload)
     s3 = Aws::S3::Client.new(region: ENV['AWS_REGION'])
-    s3.delete_object(
-      bucket: ENV['AWS_BUCKET_NAME'],
-      key: "uploads/#{file_upload.user.id}/#{File.basename(file_upload.file_url)}"
-    )
+    if file_upload.file_url.present?
+      file_key = "uploads/#{file_upload.user.id}/#{File.basename(file_upload.file_url)}"
+      s3.delete_object(
+        bucket: ENV['AWS_BUCKET_NAME'],
+        key: file_key
+      )
+    else
+      Rails.logger.error "File URL is nil for file upload with ID #{file_upload.id}. Unable to delete from S3."
+    end
   rescue Aws::S3::Errors::ServiceError => e
     Rails.logger.error "S3 Delete Error: #{e.message}"
   end
+  
 end
