@@ -51,21 +51,20 @@ class FileUploadsController < ApplicationController
   end
 
   def upload_to_s3(file)
-    s3 = Aws::S3::Resource.new(
-      region: ENV['AWS_REGION'],
-      endpoint: ENV['AWS_S3_ENDPOINT']
-    )
+    s3 = Aws::S3::Resource.new(region: ENV['AWS_REGION'], endpoint: ENV['AWS_S3_ENDPOINT'])
     bucket = s3.bucket(ENV['AWS_BUCKET_NAME'])
+  
     file_name = "#{Time.now.to_i}_#{file.original_filename}"
     
     obj = bucket.object("uploads/#{current_user.id}/#{file_name}")
-    obj.put(body: file.tempfile, acl: 'public-read') 
-  
+    obj.put(body: file.tempfile) # Removed the acl: 'public-read' line
+    
     obj.public_url
   rescue Aws::S3::Errors::ServiceError => e
     Rails.logger.error "S3 Upload Error: #{e.message}"
     nil
-  end    
+  end
+     
 
   def delete_from_s3(file_upload)
     s3 = Aws::S3::Client.new(
