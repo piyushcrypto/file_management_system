@@ -1,12 +1,15 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.1'
+ruby '3.1.6'
+gem 'nokogiri', '~> 1.14'
 gem 'devise'
 gem 'aws-sdk-s3', require: false
-
+gem 'mini_magick'
+gem 'dotenv-rails', groups: [:development, :test]
+gem 'active_storage_validations', '~> 1.3.5'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.8', '>= 5.2.8.1'
+gem 'rails', '~> 6.1'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
