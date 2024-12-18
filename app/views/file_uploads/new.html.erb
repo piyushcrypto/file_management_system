@@ -1,31 +1,35 @@
-<%= form_with(model: @file_upload, local: true) do |form| %>
-  <% if @file_upload.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@file_upload.errors.count, "error") %> prohibited this file upload from being saved:</h2>
-      <ul>
-        <% @file_upload.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+  <div class="col-md-6 col-lg-4">
+    <%= form_with(model: @file_upload, local: true) do |form| %>
+      <% if @file_upload.errors.any? %>
+        <div id="error_explanation" class="alert alert-danger">
+          <h4><%= pluralize(@file_upload.errors.count, "error") %> prohibited this file upload from being saved:</h4>
+          <ul>
+            <% @file_upload.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-  <div>
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
+      <div class="form-group">
+        <%= form.label :title, class: "font-weight-bold" %>
+        <%= form.text_field :title, class: "form-control", placeholder: "Enter file title" %>
+      </div>
 
-  <div>
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-  </div>
+      <div class="form-group">
+        <%= form.label :description, class: "font-weight-bold" %>
+        <%= form.text_area :description, class: "form-control", placeholder: "Enter file description", rows: 4 %>
+      </div>
 
-  <div>
-    <%= form.label :file %>
-    <%= form.file_field :file %>
-  </div>
+      <div class="form-group">
+        <%= form.label :file, class: "font-weight-bold" %>
+        <%= form.file_field :file, class: "form-control-file" %>
+      </div>
 
-  <div>
-    <%= form.submit "Upload File" %>
+      <div class="form-group">
+        <%= form.submit "Upload File", class: "btn btn-primary btn-block mb-3" %> <!-- Added margin-bottom -->
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>

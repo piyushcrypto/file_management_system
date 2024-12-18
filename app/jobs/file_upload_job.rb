@@ -6,32 +6,37 @@ class FileUploadJob < ApplicationJob
     file = file_upload.file
 
     begin
-      # Local file setup
-      temp_file_path = Rails.root.join('tmp', file.blob.filename.to_s)
-      File.open(temp_file_path, 'wb') { |f| f.write(file.download) }
+      temp_file = Tempfile.new([file.blob.filename.base, ".#{file.blob.filename.extension}"])
+      temp_file.binmode
+      temp_file.write(file.download)
+      temp_file.rewind
 
-      # Image compression (if applicable)
       if file.content_type.start_with?('image')
-        image = MiniMagick::Image.open(temp_file_path)
+        image = MiniMagick::Image.read(temp_file.read)
         image.format "jpeg"
         image.quality 75
-        compressed_file_path = Rails.root.join('tmp', 'compressed_file.jpg')
-        image.write(compressed_file_path)
-        temp_file_path = compressed_file_path
+
+        compressed_temp_file = Tempfile.new(['compressed_file', '.jpg'])
+        compressed_temp_file.binmode
+        image.write(compressed_temp_file.path)
+        compressed_temp_file.rewind
+
+        temp_file.close
+        temp_file = compressed_temp_file
       end
 
-      # Upload to S3
       s3 = Aws::S3::Resource.new(region: ENV['AWS_REGION'])
       bucket = s3.bucket(ENV['AWS_BUCKET_NAME'])
       s3_object = bucket.object("uploads/#{file_upload.user.id}/#{file.blob.filename.to_s}")
-      s3_object.put(body: File.open(temp_file_path))
 
-      # Update file URL
+      s3_object.put(body: temp_file)
+
       file_upload.update(file_url: s3_object.public_url)
+
     ensure
-      # Cleanup temporary files
-      File.delete(temp_file_path) if File.exist?(temp_file_path)
-    end
+      temp_file.close
+      temp_file.unlink 
+
   rescue Aws::S3::Errors::ServiceError => e
     Rails.logger.error "S3 Upload Error: #{e.message}"
   rescue StandardError => e
